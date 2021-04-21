@@ -83,6 +83,17 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
 
+    '@typescript-eslint/no-unsafe-member-access':'off',
+    'no-unsafe-member-access':'off',
+    'no-multiple-empty-lines':'off',
+    'no-trailing-spaces':'off',
+    'no-unsafe-call':'off',
+    '@typescript-eslint/no-unsafe-call':'off',
+    '@typescript-eslint/no-unsafe-assignment':'off',
+    '@typescript-eslint/no-unsafe-member-access':'off',
+    'semi':'off',
+    'space-before-function-paren':'off',
+
     // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
