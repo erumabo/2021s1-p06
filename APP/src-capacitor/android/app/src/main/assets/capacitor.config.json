@@ -1,0 +1,10 @@
+{
+  "appId": "io.github.erumabo.p06",
+  "appName": "P06-Cliente",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.18.17:8080"
+  }
+}

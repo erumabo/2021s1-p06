@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">P06-Cliente</string>
+    <string name="title_activity_main">P06-Cliente</string>
+    <string name="package_name">io.github.erumabo.p06</string>
+    <string name="custom_url_scheme">io.github.erumabo.p06</string>
+</resources>
