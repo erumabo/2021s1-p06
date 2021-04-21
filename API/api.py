@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
-from bottle import run, get, post, put, delete, request, abort
+from bottle import run, get, post, put, delete, request, abort, response
 """
   post ---> Create
   get ----> Read
@@ -23,7 +23,7 @@ def db(query, params=None, commit=False):
     conn = mysql.connector.connect(**config);
   except mysql.connector.Error as err:
     print(err);
-    raise err;
+    abort(500,err.msg);
   
   cursor = conn.cursor();
   rows = [];
@@ -54,10 +54,12 @@ def db(query, params=None, commit=False):
 @get('/')
 @get('/items')
 def get_all():
+  response.set_header('Access-Control-Allow-Origin','*');
   return { 'items': db("SELECT id, nombre, valor, disponible FROM items") };
 
 @get('/item/<item>')
 def get_item(item:int):
+  response.set_header('Access-Control-Allow-Origin','*');
   rows = db("SELECT id, nombre, valor, disponible FROM items WHERE id = %s",(item,))
   if(len(rows)>0): return rows[0];
   else: return abort(404,'Item no existe');
@@ -75,6 +77,7 @@ def post_item():
     'valor'     :request.forms.get('valor',     type=int ),
     'disponible':request.forms.get('disponible',type=bool) or False
   };
+  response.set_header('Access-Control-Allow-Origin','*');
   return db(query,params,commit=True);
 
 @put('/item/<item>')
@@ -91,6 +94,7 @@ def put_item(item:int):
     'disponible':request.forms.get('disponible',type=bool) or False
   };
   print(params);
+  response.set_header('Access-Control-Allow-Origin','*');
   return db(query,params,commit=True);
 
 @delete('/item/<item>')
@@ -99,6 +103,7 @@ def delete_item(item:int):
     " DELETE FROM items"
     " WHERE id = %s"
   )
+  response.set_header('Access-Control-Allow-Origin','*');
   return db(query,(item,),commit=True);
 
-run(host='localhost', port=8080, debug=True, reloader=True)
+run(host='localhost', port=3030, debug=True, reloader=True)
