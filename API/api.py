@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import errorcode
-from bottle import run, get, post, put, delete, request, abort, response
+from bottle import run, route, get, post, put, delete, request, abort, response
 """
   post ---> Create
   get ----> Read
@@ -31,12 +31,16 @@ def db(query, params=None, commit=False):
   try:
     cursor.execute(query, params=params, multi=False);
   except mysql.connector.Error as err:
+    print(err);
     if(err.errno == errorcode.ER_BAD_NULL_ERROR):
       rows = abort(400,err.msg);
     elif(err.errno == errorcode.ER_DUP_ENTRY):
       rows = abort(409,err.msg);
+    elif(err.errno == errorcode.ER_WARN_DATA_OUT_OF_RANGE):
+      rows = abort(400,err.msg);
+    elif(err.errno == errorcode.ER_DATA_TOO_LONG):
+      rows = abort(400,err.msg);
     else:
-      print(err);
       raise err;
   else:
     columns = cursor.column_names;
@@ -50,20 +54,17 @@ def db(query, params=None, commit=False):
   # Retornar lo que sea que se obtuvo
   return rows;
 
+@route('/items',method='OPTIONS')
+def options_items():
+  response.set_header('Access-Control-Allow-Origin','*');
+  response.set_header('Access-Control-Allow-Methods','GET, POST, OPTIONS')
+  return;
 
 @get('/')
 @get('/items')
 def get_all():
   response.set_header('Access-Control-Allow-Origin','*');
   return { 'items': db("SELECT id, nombre, valor, disponible FROM items") };
-
-@get('/item/<item>')
-def get_item(item:int):
-  response.set_header('Access-Control-Allow-Origin','*');
-  rows = db("SELECT id, nombre, valor, disponible FROM items WHERE id = %s",(item,))
-  if(len(rows)>0): return rows[0];
-  else: return abort(404,'Item no existe');
-
 
 @post('/items')
 def post_item():
@@ -80,6 +81,19 @@ def post_item():
   response.set_header('Access-Control-Allow-Origin','*');
   return db(query,params,commit=True);
 
+@route('/item/<item>',method='OPTIONS')
+def options_item(item=0):
+  response.set_header('Access-Control-Allow-Origin','*');
+  response.set_header('Access-Control-Allow-Methods','GET, PUT, DELETE, OPTIONS')
+  return;
+
+@get('/item/<item>')
+def get_item(item:int):
+  response.set_header('Access-Control-Allow-Origin','*');
+  rows = db("SELECT id, nombre, valor, disponible FROM items WHERE id = %s",(item,))
+  if(len(rows)>0): return rows[0];
+  else: return abort(404,'Item no existe');
+
 @put('/item/<item>')
 def put_item(item:int):
   query = (
@@ -93,7 +107,6 @@ def put_item(item:int):
     'valor'     :request.forms.get('valor',     type=int ),
     'disponible':request.forms.get('disponible',type=bool) or False
   };
-  print(params);
   response.set_header('Access-Control-Allow-Origin','*');
   return db(query,params,commit=True);
 
@@ -106,4 +119,4 @@ def delete_item(item:int):
   response.set_header('Access-Control-Allow-Origin','*');
   return db(query,(item,),commit=True);
 
-run(host='localhost', port=3030, debug=True, reloader=True)
+run(host='0.0.0.0', port=3030, debug=True, reloader=True)
