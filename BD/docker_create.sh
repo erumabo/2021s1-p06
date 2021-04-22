@@ -1,4 +1,8 @@
 #! /bin/bash
+
+#IMPORTANTE: se recomienda cambiar los datos de login
+#IMPORTANTE: es necesario cambiar el directorio de datos o crear uno
+
 docker run \
   -e MYSQL_DATABASE="p06" \
   -e MYSQL_USER="mabo" \
