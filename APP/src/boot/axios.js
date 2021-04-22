@@ -5,7 +5,7 @@ Vue.prototype.$axios = axios
 // ^ ^ ^ this will allow you to use this.$axios
 // //       so you won't necessarily have to import axios in each vue file
 //
-const api = axios.create({ baseURL: 'http://localhost:3030' })
+const api = axios.create({ baseURL: 'http://192.168.18.17:3030' })
 Vue.prototype.$api = api
 // // ^ ^ ^ this will allow you to use this.$api
 // //       so you can easily perform requests against your app's API
