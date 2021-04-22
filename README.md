@@ -1,4 +1,4 @@
-# P06
+# [P06](https://github.com/erumabo/2021s1-p06)
 
 Programa para la asignación P06 del curso Proyecto de Ingeniería de Software, IS 2021
 
@@ -18,5 +18,5 @@ Recomendación: Realizar un programa simple, evitar olores de software y documen
 
 ## Solución
 
-La aplicación está hecha usando el _framework_ Quasar v1.15 con Vue v2 y convertida a una aplicación Android mediante Capacitor v2.
-Para la base de datos se usa MySQL en un contenedor Docker y un API hcho con Python Bottle para interactuar con ella.
+La aplicación está hecha usando el _framework_ [Quasar v1.15](https://quasar.dev/) con [Vue v2](https://vuejs.org/) y convertida a una aplicación Android mediante [Capacitor v2](https://capacitorjs.com/).
+Para la base de datos se usa MySQL en un contenedor [Docker](https://hub.docker.com/_/mysql/) y un API hcho con [Python Bottle](https://bottlepy.org/docs/0.12/index.html) para interactuar con ella.
